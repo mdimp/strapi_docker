@@ -12,4 +12,4 @@ WORKDIR /opt/app
 COPY ./ .
 RUN yarn build
 EXPOSE 1337
-CMD ["npm", "run", "develop"]
+CMD ["npm", "run", "build"]
