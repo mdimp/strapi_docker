@@ -1,27 +1,26 @@
+# Use the official Node.js 14 image as the base image
+FROM node:14-alpine
 
-FROM node:16-alpine as build
-# Installing libvips-dev for sharp Compatibility
-RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev && rm -rf /var/cache/apk/* > /dev/null 2>&1
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-WORKDIR /opt/
-COPY  package*.json ./
-ENV PATH /opt/node_modules/.bin:$PATH
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files to the container
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install --production
-WORKDIR /opt/app
-COPY ./ .
+
+# Copy the Strapi app files to the container
+COPY . .
+
+# Set the NODE_ENV environment variable to "production"
+ENV NODE_ENV=production
+
+# Build the Strapi app for production
 RUN npm run build
 
+# Expose port 1337
+EXPOSE 1337
 
-FROM node:16-alpine
-# Installing libvips-dev for sharp Compatibility
-RUN apk add vips-dev
-RUN rm -rf /var/cache/apk/*
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-WORKDIR /opt/app
-COPY --from=build /opt/node_modules ./node_modules
-ENV PATH /opt/node_modules/.bin:$PATH
-COPY --from=build /opt/app ./
-EXPOSE 8080
-CMD ["npm", "run","start"]
+# Start the Strapi app
+CMD ["npm", "start"]
