@@ -14,7 +14,7 @@ RUN npm install --production
 COPY . .
 
 # Set the NODE_ENV environment variable to "production"
-ENV NODE_ENV=production
+ENV NODE_ENV=production npm start
 
 # Build the Strapi app for production
 RUN npm run build
@@ -24,3 +24,4 @@ EXPOSE 1337
 
 # Start the Strapi app
 CMD ["npm", "start"]
+
