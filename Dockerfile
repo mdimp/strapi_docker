@@ -23,5 +23,5 @@ WORKDIR /opt/app
 COPY --from=build /opt/node_modules ./node_modules
 ENV PATH /opt/node_modules/.bin:$PATH
 COPY --from=build /opt/app ./
-EXPOSE $PORT
+EXPOSE 8080
 CMD ["npm", "run","start"]
