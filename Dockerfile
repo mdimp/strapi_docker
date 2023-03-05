@@ -11,4 +11,4 @@ RUN yarn config set network-timeout 600000 -g && yarn install
 WORKDIR /opt/app
 COPY ./ .
 RUN yarn build
-CMD ["npm", "run", "build"]
+CMD ["node", "server.js"]
